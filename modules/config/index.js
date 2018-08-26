@@ -1,10 +1,10 @@
 let config = {};
 
 config = {
-        interval: 5,
+        interval: 2000,
         first_name: "Doug",
         last_name: "Sparagna",
-        message: "This will keep the loop going indefinetly",
+        message: "This will keep the loop going indefinetly"
     }
 
 module.exports = config;
