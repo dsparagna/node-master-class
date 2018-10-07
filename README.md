@@ -1,1 +1,1 @@
-good code test# node-master-class
+buggood code test# node-master-class
