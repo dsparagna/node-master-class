@@ -7,6 +7,7 @@
 var http = require('http');
 var url = require('url');
 var StringDecoder = require('string_decoder').StringDecoder;
+var config = require('./modules/config');
 
  // Configure the server to respond to all requests with a string
 var server = http.createServer(function(req,res){
@@ -61,6 +62,7 @@ var server = http.createServer(function(req,res){
         var payloadString = JSON.stringify(payload);
 
         // Return the response
+        res.setHeader('Content-Type', 'application/json');
         res.writeHead(statusCode);
         res.end(payloadString);
         console.log("Returning this response: ",statusCode,payloadString);
@@ -71,17 +73,23 @@ var server = http.createServer(function(req,res){
 });
 
 // Start the server
-server.listen(3000,function(){
-  console.log('The server is up and running now');
+server.listen(config.port ,function(){
+  console.log("The server is up and running now on port:" , config.port );
+  console.log("The server is up and in mode: " , config.envName);
 });
 
 // Define all the handlers
 var handlers = {};
 
 // Sample handler
-handlers.sample = function(data,callback){
-    callback(406,{'name':'sample handler'});
+handlers.ping = function(data,callback){
+    callback(200);
 };
+
+handlers.home = function(data,callback){
+  callback(200,{'home':'hello world'});
+};
+
 
 // Not found handler
 handlers.notFound = function(data,callback){
@@ -90,5 +98,6 @@ handlers.notFound = function(data,callback){
 
 // Define the request router
 var router = {
-  'sample' : handlers.sample
-};
+  'ping' : handlers.ping,
+  'home': handlers.home
+}
